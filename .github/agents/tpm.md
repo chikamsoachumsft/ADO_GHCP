@@ -199,6 +199,19 @@ If the user asks for estimates:
 - FOTA (Firmware Over The Air) update support
 - CLI UART pass-through (tunnelat command)
 
+## Itron Product Documentation Lookup
+
+Refer to the [Itron Product Knowledge Map](itron-product-knowledge.md) for the full product taxonomy, glossary, and documentation URLs.
+
+When generating Features and User Stories, **look up product-specific details before guessing**:
+1. Check the knowledge map for product names, device models, and technical terms.
+2. If the knowledge map doesn't cover the specific UI screens or endpoint capabilities you need, ask the user to provide the relevant section from `https://docs.itrontotal.com` (the docs site requires JavaScript and can't be fetched at runtime).
+
+This is especially useful when:
+- Writing story descriptions that reference specific Field Tools screens or workflows
+- Determining the correct cross-multiplication dimensions for a product family
+- Adding acceptance criteria that reference actual product behavior
+
 ### Hardware stories typically involve:
 - Modem selection and qualification
 - BOM (Bill of Materials) updates

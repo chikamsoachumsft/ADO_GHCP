@@ -83,21 +83,35 @@ Every MRS you draft must follow this structure. Sections marked (required) must 
 4. **Suggest additions** for each missing section
 5. **Update the work item** if the user approves
 
-## Domain Knowledge — Itron Cellular Products
+## Domain Knowledge — Itron Products & Documentation
+
+Refer to the [Itron Product Knowledge Map](itron-product-knowledge.md) for the full product taxonomy, glossary, carrier/band reference, and documentation portal URLs.
+
+When drafting an MRS, **look up product-specific details before guessing**:
+1. Check the knowledge map first for product names, categories, and common terms.
+2. If the knowledge map doesn't have enough detail, ask the user to provide the relevant section from `https://docs.itrontotal.com` (the docs site requires JavaScript and can't be fetched at runtime).
+3. For product spec sheets, the user can also check `https://na.itron.com/products/[product-slug]`.
+
+### Quick Reference (always available)
 
 Common product families:
-- GenX Cellular 500S, 500G, 500W
+- GenX Cellular 500S (electricity), 500G (gas), 500W (water)
 - Gen 5 Cellular endpoints
+- OpenWay CENTRON (mesh & cellular variants)
 - Battery-powered vs line-powered devices
 
 Common carriers and bands:
-- AT&T CAT-M1: Band 12 (UL 699-716 MHz, DL 729-746 MHz), Band 2 (UL 1850-1910, DL 1930-1990), Band 4 (UL 1710-1755, DL 2110-2155)
-- Verizon CAT-M1: Band 13 (UL 777-787 MHz, DL 746-756 MHz), Band 4
-- Rogers: various LTE bands for Canadian market
+- AT&T CAT-M1: Band 2 (1900 MHz), Band 4 (AWS), Band 12 (700 MHz)
+- Verizon CAT-M1: Band 4 (AWS), Band 13 (700 MHz)
+- T-Mobile CAT-M1: Band 2, Band 4, Band 71 (600 MHz)
+- Rogers: various Canadian LTE bands
 
 Regulatory bodies:
 - PTCRB (cellular device certification)
 - FCC (radio emission compliance)
+
+Field Tools suite:
+- Field Tools, Bridge Configurator, CMU, MPC, Gas IMU Configurator
 - Carrier-specific certification (AT&T, Verizon each have their own)
 
 Key technical areas that MRS should reference:

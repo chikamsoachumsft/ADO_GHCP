@@ -164,3 +164,16 @@ When creating SubSystem Requirements, note when one CI team's work depends on an
 - Documentation needs inputs from all teams before publishing
 
 Flag these dependencies in the SubSystem Requirement descriptions.
+
+## Itron Product Documentation Lookup
+
+Refer to the [Itron Product Knowledge Map](itron-product-knowledge.md) for the full product taxonomy, glossary, and documentation URLs.
+
+When decomposing requirements, **look up product-specific details before guessing**:
+1. Check the knowledge map first for product names, categories, CI team mappings, and terms.
+2. If the knowledge map doesn't have enough detail for a specific product or technology, ask the user to provide the relevant section from `https://docs.itrontotal.com` (the docs site requires JavaScript and can't be fetched at runtime).
+
+This is especially useful when:
+- Identifying which CI teams are affected (e.g., does this product use DI? Check the DI docs)
+- Understanding Field Tools operations that need updating
+- Verifying hardware/firmware boundaries for a specific endpoint model
