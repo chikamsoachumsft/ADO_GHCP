@@ -1,0 +1,90 @@
+[
+  {
+    "id": "EPIC-01",
+    "title": "Authentication & Security Platform",
+    "type": "Epic",
+    "description": "Implement a comprehensive authentication and security platform including multi-factor authentication, session management, and OWASP-compliant security hardening for the customer self-service portal.",
+    "acceptanceCriteria": "- MFA is enforced for all customer logins\n- Sessions expire after 15 minutes of inactivity\n- Re-authentication is required for sensitive operations\n- All authentication events are audit-logged\n- Security headers pass OWASP ZAP scan\n- Penetration test findings are P3 or lower",
+    "storyPoints": 55,
+    "priority": 1,
+    "tags": "security;phase-1;foundation",
+    "areaPath": "Contoso-SelfService\\Security"
+  },
+  {
+    "id": "EPIC-02",
+    "title": "Account Dashboard",
+    "type": "Epic",
+    "description": "Build the account dashboard displaying customer accounts, balances, and transaction history with search, filter, and export capabilities.",
+    "acceptanceCriteria": "- Customers see all accounts (Checking, Savings, Money Market, CD) with balances\n- Transaction history shows last 30 days by default, searchable up to 18 months\n- Transactions exportable as CSV and PDF\n- Pending transactions displayed separately with visual indicator\n- Page loads in under 2 seconds (P95)",
+    "storyPoints": 21,
+    "priority": 2,
+    "tags": "dashboard;phase-1;core",
+    "areaPath": "Contoso-SelfService\\Dashboard"
+  },
+  {
+    "id": "EPIC-03",
+    "title": "Fund Transfers",
+    "type": "Epic",
+    "description": "Enable internal fund transfers between customer's own accounts and to other Contoso customers, with payee management, transfer limits, fraud checks, and cancellation capabilities.",
+    "acceptanceCriteria": "- Internal transfers (own accounts) process in real-time\n- Transfers to other Contoso customers enforce daily ($5K) and per-transaction ($2.5K) limits\n- New payees have 24-hour hold before first transfer\n- Re-authentication required for transfers > $500\n- Fraud velocity checks prevent rapid successive transfers\n- Pending transfers can be cancelled",
+    "storyPoints": 60,
+    "priority": 1,
+    "tags": "transfers;phase-1;core;high-risk",
+    "areaPath": "Contoso-SelfService\\Transfers"
+  },
+  {
+    "id": "EPIC-04",
+    "title": "Bill Pay",
+    "type": "Epic",
+    "description": "Implement bill payment functionality including biller search/management, one-time and recurring payments, and payment reminders.",
+    "acceptanceCriteria": "- Customers can search biller directory and add billers manually\n- One-time and recurring payments can be created, edited, paused, and cancelled\n- Recurring payment frequencies: weekly, bi-weekly, monthly, quarterly\n- Payment reminders sent 3 days before scheduled payment\n- Payments cut off at 4 PM ET for same-day processing",
+    "storyPoints": 34,
+    "priority": 2,
+    "tags": "billpay;phase-1;core",
+    "areaPath": "Contoso-SelfService\\BillPay"
+  },
+  {
+    "id": "EPIC-05",
+    "title": "Support Tickets",
+    "type": "Epic",
+    "description": "Build a customer-facing support ticket system for submitting, tracking, and managing support requests with comment threading and SLA visibility.",
+    "acceptanceCriteria": "- Customers can submit tickets with category, subject, description, and attachments\n- Ticket statuses visible: Submitted, In Review, Awaiting Customer, Resolved, Closed\n- Customers can add comments and reopen resolved tickets within 7 days\n- SLA expectations displayed per category",
+    "storyPoints": 21,
+    "priority": 3,
+    "tags": "support;phase-1",
+    "areaPath": "Contoso-SelfService\\Support"
+  },
+  {
+    "id": "EPIC-06",
+    "title": "Document Upload",
+    "type": "Epic",
+    "description": "Implement secure document upload with virus scanning, document request workflow, status tracking, and 7-year retention compliance.",
+    "acceptanceCriteria": "- Customers can upload PDF, JPG, PNG, TIFF files (25 MB per file, 100 MB per request)\n- All uploads scanned for viruses before acceptance\n- Document requests from back-office visible with deadlines\n- Documents retained for 7 years per regulatory requirements\n- Customers can view but not delete previously uploaded documents",
+    "storyPoints": 26,
+    "priority": 2,
+    "tags": "documents;phase-1;compliance",
+    "areaPath": "Contoso-SelfService\\Documents"
+  },
+  {
+    "id": "EPIC-07",
+    "title": "Notifications",
+    "type": "Epic",
+    "description": "Build notification infrastructure with email and in-app delivery, mandatory security notifications, and customer-configurable notification preferences.",
+    "acceptanceCriteria": "- Email and in-app notifications operational for Phase 1\n- Mandatory notifications (login, password change, large transfers) cannot be disabled\n- Customers can configure optional notification preferences per category\n- In-app notification center shows read/unread with badge count",
+    "storyPoints": 34,
+    "priority": 2,
+    "tags": "notifications;phase-1",
+    "areaPath": "Contoso-SelfService\\Notifications"
+  },
+  {
+    "id": "EPIC-08",
+    "title": "Profile Management",
+    "type": "Epic",
+    "description": "Enable customers to view and edit their profile information, manage preferences, and change passwords with appropriate re-verification.",
+    "acceptanceCriteria": "- Customers can view all profile fields\n- Editable fields: email (re-verify), phone (OTP), address, preferences\n- Non-editable fields marked clearly with 'contact support' guidance\n- Password change requires current password + MFA",
+    "storyPoints": 13,
+    "priority": 3,
+    "tags": "profile;phase-1",
+    "areaPath": "Contoso-SelfService\\Profile"
+  }
+]

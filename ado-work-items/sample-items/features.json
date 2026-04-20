@@ -1,0 +1,104 @@
+[
+  {
+    "id": "FEAT-01", "parentId": "EPIC-01", "title": "Multi-Factor Authentication", "type": "Feature",
+    "description": "Implement MFA with SMS OTP, authenticator app, and biometric (mobile) as second factors. MFA required for all logins.",
+    "acceptanceCriteria": "- SMS OTP delivery within 30 seconds\n- TOTP authenticator app setup with QR code\n- Biometric login on iOS (Face ID/Touch ID) and Android\n- Fallback to SMS if biometric unavailable",
+    "storyPoints": 24, "priority": 1, "tags": "security;mfa"
+  },
+  {
+    "id": "FEAT-02", "parentId": "EPIC-01", "title": "Session & Access Management", "type": "Feature",
+    "description": "JWT-based session management with configurable timeouts, concurrent device limits, role-based access, and account lockout protection.",
+    "acceptanceCriteria": "- 15-minute sliding session expiration\n- Max 3 concurrent sessions\n- Force logout from profile page invalidates all tokens\n- Progressive lockout after 3/5/10 failed attempts\n- Account unlock via email link after 30 minutes",
+    "storyPoints": 23, "priority": 1, "tags": "security;sessions"
+  },
+  {
+    "id": "FEAT-03", "parentId": "EPIC-01", "title": "Security Hardening", "type": "Feature",
+    "description": "Implement OWASP-compliant security headers, rate limiting, CSRF protection, and comprehensive audit logging for all authentication events.",
+    "acceptanceCriteria": "- CSP, HSTS, X-Frame-Options, X-Content-Type-Options headers\n- Rate limiting: 10 login attempts per minute per IP\n- All auth events logged with timestamp, IP, user agent, outcome\n- Audit logs are append-only and retained 7 years",
+    "storyPoints": 8, "priority": 1, "tags": "security;owasp"
+  },
+  {
+    "id": "FEAT-04", "parentId": "EPIC-02", "title": "Account Overview", "type": "Feature",
+    "description": "Display all customer accounts with current balances, account status, and pending transaction indicators on the main dashboard.",
+    "acceptanceCriteria": "- Show all account types: Checking, Savings, Money Market, CD\n- Display available and ledger balance\n- Account status badge (Active, Frozen, Closed)\n- Pending transactions shown with visual indicator",
+    "storyPoints": 8, "priority": 2, "tags": "dashboard"
+  },
+  {
+    "id": "FEAT-05", "parentId": "EPIC-02", "title": "Transaction History", "type": "Feature",
+    "description": "Searchable transaction history with filtering, pagination, and export (CSV/PDF) capabilities spanning up to 18 months.",
+    "acceptanceCriteria": "- Default view: last 30 days\n- Filters: date range, amount range, keyword, transaction type\n- Pagination with 25/50/100 per page options\n- Export produces valid CSV and well-formatted PDF\n- Search returns results within 500ms",
+    "storyPoints": 13, "priority": 2, "tags": "dashboard;transactions"
+  },
+  {
+    "id": "FEAT-06", "parentId": "EPIC-03", "title": "Internal Transfers", "type": "Feature",
+    "description": "Enable fund transfers between customer's own accounts (real-time) and to other Contoso customers (with limits and processing windows).",
+    "acceptanceCriteria": "- Own-account transfers: real-time, no daily limit\n- Contoso customer transfers: $5K daily / $2.5K per-tx limits\n- Business hours (6AM-9PM ET): real-time; otherwise: next business day\n- Transfer confirmation screen with summary before submission",
+    "storyPoints": 24, "priority": 1, "tags": "transfers;core"
+  },
+  {
+    "id": "FEAT-07", "parentId": "EPIC-03", "title": "Payee Management", "type": "Feature",
+    "description": "CRUD operations for saved payees with fraud prevention (24-hour hold on new payees).",
+    "acceptanceCriteria": "- Add payee: name, account number, routing number\n- Edit and delete saved payees\n- 24-hour hold on first transfer to newly added payee\n- Payee list searchable and sortable",
+    "storyPoints": 10, "priority": 2, "tags": "transfers;payees"
+  },
+  {
+    "id": "FEAT-08", "parentId": "EPIC-03", "title": "Transfer Safety", "type": "Feature",
+    "description": "Step-up authentication for high-value transfers, fraud velocity checks, and transfer confirmation/receipt generation.",
+    "acceptanceCriteria": "- Re-auth (MFA) triggered for transfers > $500\n- Velocity check: block if > 5 transfers in 10 minutes\n- Confirmation receipt sent via email\n- Receipt includes: timestamp, amount, from/to accounts, confirmation number",
+    "storyPoints": 16, "priority": 1, "tags": "transfers;fraud;security"
+  },
+  {
+    "id": "FEAT-09", "parentId": "EPIC-03", "title": "Transfer History", "type": "Feature",
+    "description": "Dedicated transfer history view with search and filter capabilities.",
+    "acceptanceCriteria": "- Separate view for transfer history\n- Filters: date, amount, recipient, status\n- Status values: Completed, Pending, Cancelled, Failed\n- Downloadable as CSV",
+    "storyPoints": 5, "priority": 3, "tags": "transfers;history"
+  },
+  {
+    "id": "FEAT-10", "parentId": "EPIC-04", "title": "Biller Management", "type": "Feature",
+    "description": "Search billers from directory and manual biller entry for bill pay setup.",
+    "acceptanceCriteria": "- Biller directory search with typeahead (< 300ms)\n- Manual entry form with validation\n- Saved billers list with edit/delete\n- Biller details: name, address, account number",
+    "storyPoints": 8, "priority": 2, "tags": "billpay"
+  },
+  {
+    "id": "FEAT-11", "parentId": "EPIC-04", "title": "Payment Processing", "type": "Feature",
+    "description": "One-time bill payment submission with scheduling and payment history tracking.",
+    "acceptanceCriteria": "- Schedule payments up to 365 days ahead\n- Cut-off: 4 PM ET for same-day\n- Processing: 1-3 days (electronic), 5-7 days (check)\n- Payment history with status tracking",
+    "storyPoints": 10, "priority": 2, "tags": "billpay;payments"
+  },
+  {
+    "id": "FEAT-12", "parentId": "EPIC-04", "title": "Recurring Payments", "type": "Feature",
+    "description": "Set up, manage (edit/pause/cancel), and receive reminders for recurring bill payments.",
+    "acceptanceCriteria": "- Frequencies: weekly, bi-weekly, monthly, quarterly\n- Edit: amount, frequency, next date\n- Pause with resume date\n- Cancel with confirmation\n- 3-day reminder email before each payment",
+    "storyPoints": 16, "priority": 2, "tags": "billpay;recurring"
+  },
+  {
+    "id": "FEAT-13", "parentId": "EPIC-05", "title": "Customer Support Portal", "type": "Feature",
+    "description": "Customer-facing ticket system with submission, tracking, commenting, reopen capability, and SLA visibility.",
+    "acceptanceCriteria": "- Submit with: category, subject, description, attachments (3 files, 10MB each)\n- Track status: Submitted → In Review → Awaiting Customer → Resolved → Closed\n- Add comments to open tickets\n- Reopen resolved tickets within 7 days\n- SLA displayed per category",
+    "storyPoints": 21, "priority": 3, "tags": "support"
+  },
+  {
+    "id": "FEAT-14", "parentId": "EPIC-06", "title": "File Upload Engine", "type": "Feature",
+    "description": "Secure file upload with client/server validation, virus scanning, and supported format enforcement.",
+    "acceptanceCriteria": "- Drag & drop + file browser upload\n- Client-side: file type and size validation\n- Server-side: MIME type verification + virus scan\n- Allowed: PDF, JPG, PNG, TIFF; Max: 25 MB/file, 100 MB/request\n- Infected files blocked with clear error message",
+    "storyPoints": 13, "priority": 2, "tags": "documents;upload"
+  },
+  {
+    "id": "FEAT-15", "parentId": "EPIC-06", "title": "Document Workflow", "type": "Feature",
+    "description": "Document request workflow (back-office initiated), status tracking, and 7-year document retention with customer view access.",
+    "acceptanceCriteria": "- Back-office requests show: type, reason, deadline\n- Customer uploads against specific request\n- Status: Requested → Uploaded → Under Review → Accepted/Rejected\n- 7-year retention; customer can view, not delete",
+    "storyPoints": 13, "priority": 2, "tags": "documents;workflow"
+  },
+  {
+    "id": "FEAT-16", "parentId": "EPIC-07", "title": "Notification Delivery", "type": "Feature",
+    "description": "Email and in-app notification infrastructure with mandatory security notifications.",
+    "acceptanceCriteria": "- Email via template engine + provider (SendGrid/SES)\n- In-app: real-time updates, read/unread, badge count\n- Mandatory notifications always delivered (no opt-out)\n- Delivery confirmation logging",
+    "storyPoints": 18, "priority": 2, "tags": "notifications;delivery"
+  },
+  {
+    "id": "FEAT-17", "parentId": "EPIC-07", "title": "Notification Preferences", "type": "Feature",
+    "description": "Customer-configurable notification preferences with per-category, per-channel settings and notification history.",
+    "acceptanceCriteria": "- Preference matrix: category × channel (email/in-app)\n- Mandatory notifications locked (shown as non-toggleable)\n- Customizable thresholds for transaction/balance alerts\n- Notification history with timestamps and delivery status",
+    "storyPoints": 16, "priority": 3, "tags": "notifications;preferences"
+  }
+]

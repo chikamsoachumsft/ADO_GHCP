@@ -1,0 +1,320 @@
+[
+  {
+    "id": "US-101", "parentId": "FEAT-01", "title": "Login page with email and password",
+    "description": "As a customer, I want to log in with my email and password so that I can access my accounts securely.",
+    "acceptanceCriteria": "Given a registered customer\nWhen they enter valid email and password\nThen they are prompted for MFA (second factor)\n\nGiven invalid credentials\nWhen the customer submits the login form\nThen an error message is shown without revealing which field is incorrect\n\nGiven a locked account\nWhen the customer tries to log in\nThen a message indicates the account is locked with instructions to unlock",
+    "storyPoints": 3, "priority": 1, "tags": "security;login"
+  },
+  {
+    "id": "US-102", "parentId": "FEAT-01", "title": "MFA setup flow (SMS + Authenticator)",
+    "description": "As a customer, I want to set up multi-factor authentication so that my account has an additional layer of security.",
+    "acceptanceCriteria": "Given a customer who has not set up MFA\nWhen they log in for the first time\nThen they are guided through MFA setup before accessing the portal\n\nGiven MFA setup\nWhen the customer chooses SMS\nThen they enter their phone number, receive a code, and verify it\n\nGiven MFA setup\nWhen the customer chooses Authenticator app\nThen they scan a QR code and enter the generated TOTP code to verify\n\nGiven MFA is configured\nWhen the customer completes setup\nThen backup recovery codes are generated and displayed once",
+    "storyPoints": 8, "priority": 1, "tags": "security;mfa"
+  },
+  {
+    "id": "US-103", "parentId": "FEAT-01", "title": "MFA challenge on login",
+    "description": "As a customer, I want to verify my identity with a second factor on every login so that unauthorized access is prevented.",
+    "acceptanceCriteria": "Given a customer with MFA configured\nWhen they enter valid email and password\nThen they are prompted for their configured second factor\n\nGiven the correct MFA code\nWhen submitted within 60 seconds\nThen the customer is authenticated and redirected to the dashboard\n\nGiven an incorrect MFA code\nWhen submitted\nThen an error is shown and the customer can retry (max 3 attempts before lockout)",
+    "storyPoints": 5, "priority": 1, "tags": "security;mfa"
+  },
+  {
+    "id": "US-104", "parentId": "FEAT-01", "title": "Biometric login on mobile",
+    "description": "As a mobile customer, I want to log in using Face ID or fingerprint so that I can access my accounts quickly and securely.",
+    "acceptanceCriteria": "Given a customer using iOS with Face ID enabled\nWhen they open the app\nThen they can authenticate using Face ID instead of email/password\n\nGiven a customer using Android with fingerprint enabled\nWhen they open the app\nThen they can authenticate using fingerprint\n\nGiven biometric is unavailable (e.g., wet fingers, mask)\nWhen authentication fails\nThen the customer falls back to email/password + MFA\n\nGiven biometric is not set up on the device\nWhen the customer opens the app\nThen they log in with email/password + MFA and are prompted to enable biometric",
+    "storyPoints": 8, "priority": 2, "tags": "security;mobile;biometric"
+  },
+  {
+    "id": "US-105", "parentId": "FEAT-02", "title": "Session timeout and concurrent device limits",
+    "description": "As a security officer, I want customer sessions to expire after inactivity and limit concurrent sessions so that unauthorized access risk is minimized.",
+    "acceptanceCriteria": "Given an active session\nWhen no user activity occurs for 15 minutes\nThen the session expires and the customer is redirected to login\n\nGiven a customer logged in on 3 devices\nWhen they attempt to log in on a 4th device\nThen the oldest session is terminated automatically\n\nGiven a session about to expire\nWhen 1 minute remains\nThen a warning modal appears with option to extend the session",
+    "storyPoints": 5, "priority": 1, "tags": "security;sessions"
+  },
+  {
+    "id": "US-106", "parentId": "FEAT-02", "title": "Re-authentication for sensitive operations",
+    "description": "As a customer, I want to re-verify my identity before performing sensitive operations so that my account is protected even if someone accesses my active session.",
+    "acceptanceCriteria": "Given an authenticated customer\nWhen they initiate a transfer > $500\nThen they must re-enter their MFA code before proceeding\n\nGiven an authenticated customer\nWhen they attempt to change their email, phone, or password\nThen they must re-authenticate with MFA\n\nGiven re-authentication\nWhen the MFA code is verified\nThen a 5-minute elevated session is granted (no re-auth needed for additional sensitive ops within window)",
+    "storyPoints": 5, "priority": 1, "tags": "security;step-up-auth"
+  },
+  {
+    "id": "US-107", "parentId": "FEAT-02", "title": "Password reset with MFA verification",
+    "description": "As a customer, I want to reset my password securely so that I can regain access if I forget my credentials.",
+    "acceptanceCriteria": "Given a customer on the login page\nWhen they click 'Forgot Password'\nThen they enter their email and receive a reset link (valid 30 minutes)\n\nGiven a valid reset link\nWhen the customer clicks it\nThen they must verify via MFA before setting a new password\n\nGiven a new password\nWhen submitted\nThen it must meet complexity requirements (8+ chars, upper, lower, number, special)\nAnd all existing sessions are invalidated",
+    "storyPoints": 5, "priority": 1, "tags": "security;password"
+  },
+  {
+    "id": "US-108", "parentId": "FEAT-02", "title": "Force logout from all devices",
+    "description": "As a customer, I want to log out of all devices from my profile so that I can secure my account if I suspect compromise.",
+    "acceptanceCriteria": "Given a customer on the profile page\nWhen they click 'Log out of all devices'\nThen all active sessions and tokens are invalidated\nAnd the customer is redirected to login\n\nGiven sessions are invalidated\nWhen any other device makes a request\nThen it receives a 401 and redirects to login",
+    "storyPoints": 3, "priority": 2, "tags": "security;sessions"
+  },
+  {
+    "id": "US-109", "parentId": "FEAT-02", "title": "Account lockout after failed login attempts",
+    "description": "As a security officer, I want accounts to lock after repeated failed login attempts so that brute force attacks are prevented.",
+    "acceptanceCriteria": "Given a customer account\nWhen 3 failed login attempts occur within 10 minutes\nThen a warning notification is sent (email + SMS)\n\nGiven 5 failed login attempts\nWhen the threshold is reached\nThen the account is locked for 30 minutes\n\nGiven a locked account\nWhen 30 minutes elapse\nThen the account auto-unlocks\nOR the customer can unlock via email verification + MFA\n\nGiven 10 failed attempts in 24 hours\nWhen the threshold is reached\nThen the account is locked permanently until customer calls support",
+    "storyPoints": 5, "priority": 1, "tags": "security;lockout"
+  },
+  {
+    "id": "US-110", "parentId": "FEAT-03", "title": "Security headers and OWASP compliance",
+    "description": "As a security officer, I want all responses to include appropriate security headers so that common web vulnerabilities are mitigated.",
+    "acceptanceCriteria": "Given any HTTP response from the portal\nThen the following headers are present:\n- Content-Security-Policy (strict, no inline scripts)\n- Strict-Transport-Security (max-age=31536000; includeSubDomains)\n- X-Frame-Options: DENY\n- X-Content-Type-Options: nosniff\n- Referrer-Policy: strict-origin-when-cross-origin\n\nGiven any API endpoint\nWhen rate limit is exceeded (10 requests/second per IP)\nThen a 429 response is returned with Retry-After header",
+    "storyPoints": 5, "priority": 1, "tags": "security;owasp;headers"
+  },
+  {
+    "id": "US-111", "parentId": "FEAT-03", "title": "Login audit logging",
+    "description": "As a compliance officer, I want all authentication events logged so that we have a complete audit trail for regulatory reporting.",
+    "acceptanceCriteria": "Given any authentication event (login, logout, MFA, password change, lockout)\nThen the following is logged:\n- Timestamp (UTC)\n- Customer ID\n- Event type\n- IP address\n- User agent\n- Outcome (success/failure)\n- Geo-location (from IP)\n\nGiven audit logs\nWhen stored\nThen they are append-only (immutable) and retained for 7 years\n\nGiven a compliance request\nWhen audit logs are queried\nThen results return within 10 seconds for any 30-day window",
+    "storyPoints": 3, "priority": 1, "tags": "security;audit;compliance"
+  },
+  {
+    "id": "US-201", "parentId": "FEAT-04", "title": "Account list with balances",
+    "description": "As a customer, I want to see all my accounts with current balances on the dashboard so that I have a quick overview of my financial position.",
+    "acceptanceCriteria": "Given an authenticated customer with multiple accounts\nWhen they land on the dashboard\nThen they see a card for each account showing:\n- Account nickname (editable)\n- Last 4 digits of account number\n- Account type (Checking, Savings, Money Market, CD)\n- Available balance and ledger balance\n- Account status badge (Active/Frozen/Closed)\n\nGiven an account with no nickname\nWhen displayed\nThen the account type + last 4 digits is used as default label\n\nGiven the dashboard\nWhen loading\nThen a loading skeleton is shown and data loads within 2 seconds",
+    "storyPoints": 5, "priority": 1, "tags": "dashboard;accounts"
+  },
+  {
+    "id": "US-202", "parentId": "FEAT-04", "title": "Pending transactions display",
+    "description": "As a customer, I want to see pending transactions separately so that I understand my available vs ledger balance.",
+    "acceptanceCriteria": "Given an account with pending transactions\nWhen the customer views the account\nThen pending transactions are shown in a separate section with a 'Pending' badge\n\nGiven pending transactions\nWhen displayed\nThen they show: date, description, amount, and 'Pending' status\nAnd the total pending amount is shown next to available balance",
+    "storyPoints": 3, "priority": 2, "tags": "dashboard;pending"
+  },
+  {
+    "id": "US-203", "parentId": "FEAT-05", "title": "Transaction history with 30-day default view",
+    "description": "As a customer, I want to see my recent transactions so that I can track my spending and account activity.",
+    "acceptanceCriteria": "Given an authenticated customer viewing an account\nWhen they navigate to transaction history\nThen the last 30 days of transactions are displayed by default\n\nGiven the transaction list\nThen each row shows: date, description, category, amount (debit/credit), running balance\n\nGiven many transactions\nWhen paginated\nThen 25 rows shown by default with option for 50 or 100\nAnd pagination controls at bottom",
+    "storyPoints": 5, "priority": 1, "tags": "dashboard;transactions"
+  },
+  {
+    "id": "US-204", "parentId": "FEAT-05", "title": "Transaction search and filter (18 months)",
+    "description": "As a customer, I want to search and filter my transaction history so that I can find specific transactions quickly.",
+    "acceptanceCriteria": "Given the transaction history page\nWhen the customer applies filters\nThen they can filter by:\n- Date range (up to 18 months back)\n- Amount range (min/max)\n- Description keyword (partial match)\n- Transaction type (debit, credit, transfer, bill pay)\n\nGiven search results\nWhen returned\nThen they display within 500ms\nAnd the active filters are shown as removable chips",
+    "storyPoints": 5, "priority": 2, "tags": "dashboard;search"
+  },
+  {
+    "id": "US-205", "parentId": "FEAT-05", "title": "Transaction export (CSV and PDF)",
+    "description": "As a customer, I want to export my transactions so that I can use them for budgeting or tax purposes.",
+    "acceptanceCriteria": "Given filtered transaction results\nWhen the customer clicks 'Export CSV'\nThen a CSV file downloads with all visible columns\n\nGiven filtered transaction results\nWhen the customer clicks 'Export PDF'\nThen a formatted PDF generates with account info header, date range, and transaction table\n\nGiven a large export (>10,000 rows)\nWhen requested\nThen a progress indicator shows and the file is generated server-side",
+    "storyPoints": 3, "priority": 3, "tags": "dashboard;export"
+  },
+  {
+    "id": "US-301", "parentId": "FEAT-06", "title": "Transfer between own accounts",
+    "description": "As a customer, I want to transfer money between my own accounts so that I can manage my funds across accounts.",
+    "acceptanceCriteria": "Given a customer with 2+ accounts\nWhen they select source and destination accounts and enter an amount\nThen the transfer processes in real-time\nAnd both account balances update immediately\n\nGiven a transfer amount exceeding available balance\nWhen submitted\nThen an error states 'Insufficient funds' and the transfer is blocked\n\nGiven a successful transfer\nThen a confirmation shows: amount, from account, to account, timestamp, confirmation number",
+    "storyPoints": 8, "priority": 1, "tags": "transfers;internal"
+  },
+  {
+    "id": "US-302", "parentId": "FEAT-06", "title": "Transfer to another Contoso customer",
+    "description": "As a customer, I want to send money to other Contoso customers so that I can pay friends, family, or businesses banking with Contoso.",
+    "acceptanceCriteria": "Given a customer initiating a transfer\nWhen they enter a recipient's account + routing number (or select saved payee)\nThen the system validates the recipient exists\n\nGiven a valid transfer\nWhen submitted during business hours (6 AM – 9 PM ET)\nThen it processes in real-time\n\nGiven a valid transfer\nWhen submitted outside business hours\nThen it is queued for next business day with 'Pending' status\n\nGiven the transfer amount\nWhen it exceeds the per-transaction limit ($2,500)\nThen the transfer is blocked with error message showing the limit",
+    "storyPoints": 8, "priority": 1, "tags": "transfers;p2p"
+  },
+  {
+    "id": "US-303", "parentId": "FEAT-06", "title": "Transfer limits enforcement",
+    "description": "As a risk officer, I want transfer limits enforced so that financial exposure is capped and fraud risk is reduced.",
+    "acceptanceCriteria": "Given any transfer to another customer\nWhen the per-transaction amount exceeds $2,500\nThen the transfer is rejected\n\nGiven transfers throughout the day\nWhen the cumulative daily total exceeds $5,000\nThen additional transfers are rejected until the next calendar day (ET)\n\nGiven a transfer is rejected due to limits\nThen the error message shows: current limit, daily total so far, and remaining allowance\n\nGiven account-type-specific limits configured by back-office\nWhen they differ from defaults\nThen the custom limits apply",
+    "storyPoints": 8, "priority": 1, "tags": "transfers;limits;risk"
+  },
+  {
+    "id": "US-304", "parentId": "FEAT-06", "title": "Cancel pending transfer",
+    "description": "As a customer, I want to cancel a pending transfer so that I can correct mistakes before the transfer processes.",
+    "acceptanceCriteria": "Given a pending (unprocessed) transfer\nWhen the customer clicks 'Cancel'\nThen a confirmation dialog appears\n\nGiven cancellation is confirmed\nThen the transfer status changes to 'Cancelled'\nAnd the held amount is released back to available balance\n\nGiven a processed transfer\nWhen the customer tries to cancel\nThen the cancel button is disabled with tooltip: 'Completed transfers cannot be cancelled. Contact support.'",
+    "storyPoints": 5, "priority": 2, "tags": "transfers;cancel"
+  },
+  {
+    "id": "US-305", "parentId": "FEAT-07", "title": "Payee CRUD operations",
+    "description": "As a customer, I want to save, edit, and delete payees so that I don't have to re-enter recipient details for each transfer.",
+    "acceptanceCriteria": "Given the payee management page\nWhen the customer adds a new payee\nThen they enter: name, account number, routing number, and optional nickname\n\nGiven a saved payee\nWhen the customer edits it\nThen they can update the nickname and account details\n\nGiven a saved payee\nWhen the customer deletes it\nThen a confirmation dialog appears and the payee is removed from the list\n\nGiven the payee list\nThen it is searchable by name/nickname and sortable alphabetically",
+    "storyPoints": 5, "priority": 2, "tags": "transfers;payees"
+  },
+  {
+    "id": "US-306", "parentId": "FEAT-07", "title": "New payee 24-hour hold",
+    "description": "As a risk officer, I want a 24-hour hold on first transfers to newly added payees so that customers have time to detect and report compromised accounts.",
+    "acceptanceCriteria": "Given a newly added payee\nWhen the customer initiates the first transfer within 24 hours of adding\nThen the transfer is held for 24 hours before processing\nAnd a notification is sent (email + in-app) explaining the hold\n\nGiven the 24-hour hold period has elapsed\nWhen subsequent transfers are made to the same payee\nThen they process normally without holds",
+    "storyPoints": 5, "priority": 1, "tags": "transfers;fraud-prevention"
+  },
+  {
+    "id": "US-307", "parentId": "FEAT-08", "title": "Re-authentication for transfers over $500",
+    "description": "As a customer, I want to confirm my identity for large transfers so that my account is protected from unauthorized transactions.",
+    "acceptanceCriteria": "Given a transfer > $500\nWhen the customer submits the transfer form\nThen an MFA challenge is presented before processing\n\nGiven the MFA is verified\nThen the transfer proceeds\nAnd a 5-minute elevated session allows additional large transfers without re-auth\n\nGiven the MFA fails\nThen the transfer is cancelled and a security notification is sent",
+    "storyPoints": 5, "priority": 1, "tags": "transfers;security;step-up"
+  },
+  {
+    "id": "US-308", "parentId": "FEAT-08", "title": "Fraud velocity checks",
+    "description": "As a risk officer, I want velocity checks on transfers so that suspiciously rapid transaction patterns are blocked.",
+    "acceptanceCriteria": "Given a customer making transfers\nWhen more than 5 transfers are initiated within 10 minutes\nThen the 6th transfer is blocked\nAnd a security alert is triggered (email + in-app)\n\nGiven a velocity block\nWhen the customer waits 10 minutes\nThen transfers are re-enabled\n\nGiven repeated velocity blocks (3+ in 24 hours)\nThen the account is flagged for manual review by fraud team",
+    "storyPoints": 8, "priority": 1, "tags": "transfers;fraud;velocity"
+  },
+  {
+    "id": "US-309", "parentId": "FEAT-08", "title": "Transfer confirmation and receipt",
+    "description": "As a customer, I want to receive a confirmation and receipt after each transfer so that I have proof of the transaction.",
+    "acceptanceCriteria": "Given a successful transfer\nThen a confirmation screen shows:\n- Confirmation number\n- Amount\n- From/To accounts\n- Date and time\n- Status (Completed/Pending)\n\nGiven a successful transfer\nThen an email receipt is sent to the customer's registered email\n\nGiven the confirmation screen\nWhen the customer clicks 'Print Receipt'\nThen a printer-friendly version is generated",
+    "storyPoints": 3, "priority": 2, "tags": "transfers;receipt"
+  },
+  {
+    "id": "US-310", "parentId": "FEAT-09", "title": "Transfer history and search",
+    "description": "As a customer, I want to view and search my transfer history so that I can track past transfers.",
+    "acceptanceCriteria": "Given the transfer history page\nThen all transfers (completed, pending, cancelled, failed) are listed\n\nGiven the transfer list\nWhen the customer applies filters\nThen they can filter by: date, amount, recipient, status\n\nGiven transfer history\nWhen exported\nThen a CSV file downloads with all transfer details",
+    "storyPoints": 5, "priority": 3, "tags": "transfers;history"
+  },
+  {
+    "id": "US-401", "parentId": "FEAT-10", "title": "Biller search and directory",
+    "description": "As a customer, I want to search for billers so that I can quickly set up bill payments.",
+    "acceptanceCriteria": "Given the bill pay setup page\nWhen the customer types in the biller search field\nThen typeahead suggestions appear within 300ms\n\nGiven search results\nWhen the customer selects a biller\nThen the biller's details (name, address) auto-populate\nAnd the customer only needs to enter their account number with that biller",
+    "storyPoints": 5, "priority": 2, "tags": "billpay;search"
+  },
+  {
+    "id": "US-402", "parentId": "FEAT-10", "title": "Manual biller entry",
+    "description": "As a customer, I want to manually enter biller details when my biller isn't in the directory.",
+    "acceptanceCriteria": "Given the bill pay setup page\nWhen the customer selects 'Add manually'\nThen they enter: biller name, mailing address, account number\n\nGiven the manual entry form\nWhen submitted with valid data\nThen the biller is saved to the customer's biller list\n\nGiven invalid data (missing required fields)\nThen validation errors are shown inline",
+    "storyPoints": 3, "priority": 2, "tags": "billpay;manual-entry"
+  },
+  {
+    "id": "US-403", "parentId": "FEAT-11", "title": "One-time bill payment",
+    "description": "As a customer, I want to make a one-time bill payment so that I can pay a bill on a specific date.",
+    "acceptanceCriteria": "Given a saved biller\nWhen the customer sets amount, payment date, and source account\nThen the payment is scheduled\n\nGiven a payment date\nWhen it is today and before 4 PM ET\nThen it is processed same-day\n\nGiven a payment date\nWhen it is today after 4 PM ET\nThen it is processed next business day\n\nGiven the minimum payment\nWhen the amount is less than $1.00\nThen validation prevents submission",
+    "storyPoints": 5, "priority": 1, "tags": "billpay;one-time"
+  },
+  {
+    "id": "US-404", "parentId": "FEAT-11", "title": "Payment history",
+    "description": "As a customer, I want to see my bill payment history so that I can confirm payments were made.",
+    "acceptanceCriteria": "Given the bill pay section\nWhen the customer views payment history\nThen all payments are listed with: date, biller, amount, status, confirmation number\n\nGiven payment statuses\nThen they include: Scheduled, Processing, Completed, Failed, Cancelled",
+    "storyPoints": 5, "priority": 2, "tags": "billpay;history"
+  },
+  {
+    "id": "US-405", "parentId": "FEAT-12", "title": "Recurring payment setup",
+    "description": "As a customer, I want to set up recurring bill payments so that my bills are paid automatically.",
+    "acceptanceCriteria": "Given a saved biller\nWhen the customer selects 'Recurring'\nThen they choose: frequency (weekly, bi-weekly, monthly, quarterly), start date, amount, source account\n\nGiven a recurring payment is set up\nThen the next payment date is calculated and displayed\n\nGiven frequency = monthly\nWhen the start date is the 31st\nThen the system handles short months (uses last day of month)",
+    "storyPoints": 8, "priority": 2, "tags": "billpay;recurring"
+  },
+  {
+    "id": "US-406", "parentId": "FEAT-12", "title": "Recurring payment management",
+    "description": "As a customer, I want to edit, pause, and cancel recurring payments so that I can adjust as my needs change.",
+    "acceptanceCriteria": "Given a recurring payment\nWhen the customer edits it\nThen they can change: amount, frequency, next payment date, source account\n\nGiven a recurring payment\nWhen the customer pauses it\nThen they set a resume date and no payments are processed until then\n\nGiven a recurring payment\nWhen the customer cancels it\nThen a confirmation dialog appears and future payments are stopped\nAnd the cancellation is logged in payment history",
+    "storyPoints": 5, "priority": 2, "tags": "billpay;recurring;manage"
+  },
+  {
+    "id": "US-407", "parentId": "FEAT-12", "title": "Bill payment reminders",
+    "description": "As a customer, I want to receive reminders before scheduled payments so that I can ensure sufficient funds.",
+    "acceptanceCriteria": "Given a scheduled payment (one-time or recurring)\nWhen 3 days remain before the payment date\nThen an email reminder is sent with: biller name, amount, date, source account\n\nGiven insufficient funds on payment date\nWhen the payment fails\nThen a notification is sent immediately with instructions to reschedule",
+    "storyPoints": 3, "priority": 3, "tags": "billpay;reminders"
+  },
+  {
+    "id": "US-501", "parentId": "FEAT-13", "title": "Support ticket submission",
+    "description": "As a customer, I want to submit a support ticket so that I can get help without calling.",
+    "acceptanceCriteria": "Given the support page\nWhen the customer submits a ticket\nThen they fill in: category (dropdown), subject, description\nAnd optionally attach up to 3 files (10 MB each, PDF/JPG/PNG)\n\nGiven a submitted ticket\nThen a ticket number is auto-generated and displayed\nAnd a confirmation email is sent with the ticket number and expected response time",
+    "storyPoints": 5, "priority": 2, "tags": "support;submit"
+  },
+  {
+    "id": "US-502", "parentId": "FEAT-13", "title": "Ticket list and status tracking",
+    "description": "As a customer, I want to see all my support tickets and their statuses so that I know what's being worked on.",
+    "acceptanceCriteria": "Given the support page\nWhen the customer views their tickets\nThen they see a list with: ticket #, subject, category, status, created date, last updated\n\nGiven ticket statuses\nThen they display with color-coded badges: Submitted (blue), In Review (yellow), Awaiting Customer (orange), Resolved (green), Closed (gray)\n\nGiven many tickets\nThen the list is searchable and filterable by status and date",
+    "storyPoints": 5, "priority": 2, "tags": "support;tracking"
+  },
+  {
+    "id": "US-503", "parentId": "FEAT-13", "title": "Ticket detail and comment thread",
+    "description": "As a customer, I want to view ticket details and add comments so that I can communicate with the support team.",
+    "acceptanceCriteria": "Given a ticket detail page\nThen it shows: all original details, attachments, and a comment thread\n\nGiven an open ticket\nWhen the customer adds a comment\nThen it appears in the thread with timestamp and 'Customer' badge\n\nGiven a new comment from support\nThen a notification is sent and the comment appears with 'Support' badge",
+    "storyPoints": 5, "priority": 2, "tags": "support;comments"
+  },
+  {
+    "id": "US-504", "parentId": "FEAT-13", "title": "Reopen resolved ticket within 7 days",
+    "description": "As a customer, I want to reopen a resolved ticket if my issue isn't actually fixed.",
+    "acceptanceCriteria": "Given a ticket with status 'Resolved'\nWhen within 7 days of resolution\nThen a 'Reopen' button is visible\n\nGiven the customer clicks 'Reopen'\nThen the status changes to 'Submitted' and the support team is notified\n\nGiven a ticket resolved > 7 days ago\nThen the 'Reopen' button is hidden and a message says 'Please submit a new ticket'",
+    "storyPoints": 3, "priority": 3, "tags": "support;reopen"
+  },
+  {
+    "id": "US-505", "parentId": "FEAT-13", "title": "SLA display by ticket category",
+    "description": "As a customer, I want to see expected response times so that I know when to expect a reply.",
+    "acceptanceCriteria": "Given ticket submission\nWhen a category is selected\nThen the expected response time is shown:\n- Account inquiry: 1 business day\n- Transaction dispute: 2 business hours\n- Technical issue: 4 business hours\n- Document request: 1 business day\n- Other: 2 business days\n\nGiven a submitted ticket\nThen the SLA countdown is visible on the ticket detail page",
+    "storyPoints": 3, "priority": 3, "tags": "support;sla"
+  },
+  {
+    "id": "US-601", "parentId": "FEAT-14", "title": "File upload with drag and drop",
+    "description": "As a customer, I want to upload documents by dragging and dropping or browsing so that I can fulfill document requests easily.",
+    "acceptanceCriteria": "Given the document upload area\nWhen the customer drags a file over it\nThen a visual drop zone indicator appears\n\nGiven a dropped or browsed file\nWhen the file type is PDF, JPG, PNG, or TIFF and size is ≤ 25 MB\nThen the file is accepted and upload begins with a progress bar\n\nGiven an unsupported file type or oversized file\nThen an error message is shown immediately (client-side validation)\n\nGiven multiple files in one request\nWhen total size exceeds 100 MB\nThen additional files are rejected with an error",
+    "storyPoints": 5, "priority": 2, "tags": "documents;upload"
+  },
+  {
+    "id": "US-602", "parentId": "FEAT-14", "title": "Virus scanning on upload",
+    "description": "As a security officer, I want all uploaded files scanned for viruses so that malicious files don't enter our systems.",
+    "acceptanceCriteria": "Given a file upload\nWhen the file reaches the server\nThen it is scanned for viruses before being stored\n\nGiven a clean file\nThen it is stored and the upload status shows 'Complete'\n\nGiven an infected file\nThen it is rejected, the upload status shows 'Blocked — Threat Detected'\nAnd the customer sees: 'This file was blocked for security reasons. Please scan your device and try a different file.'\n\nGiven scan processing\nWhen it takes > 5 seconds\nThen a 'Scanning...' status is shown to the customer",
+    "storyPoints": 8, "priority": 1, "tags": "documents;security;virus-scan"
+  },
+  {
+    "id": "US-603", "parentId": "FEAT-15", "title": "Document request workflow",
+    "description": "As a customer, I want to see what documents have been requested and upload against specific requests.",
+    "acceptanceCriteria": "Given a back-office document request\nWhen it is created\nThen the customer sees it in their 'Document Requests' section with:\n- Document type needed\n- Reason for request\n- Deadline\n\nGiven a document request\nWhen the customer uploads a file\nThen it is linked to that specific request\nAnd the request status changes from 'Requested' to 'Uploaded'",
+    "storyPoints": 5, "priority": 2, "tags": "documents;workflow"
+  },
+  {
+    "id": "US-604", "parentId": "FEAT-15", "title": "Document status tracking",
+    "description": "As a customer, I want to track the status of my uploaded documents so that I know if they've been accepted.",
+    "acceptanceCriteria": "Given an uploaded document\nThen its status progresses through: Requested → Uploaded → Under Review → Accepted/Rejected\n\nGiven a status change\nThen a notification is sent to the customer\n\nGiven a rejected document\nThen the reason is displayed and the customer can re-upload",
+    "storyPoints": 3, "priority": 2, "tags": "documents;status"
+  },
+  {
+    "id": "US-605", "parentId": "FEAT-15", "title": "Document history with 7-year view",
+    "description": "As a customer, I want to view my previously uploaded documents so that I have access to my submission history.",
+    "acceptanceCriteria": "Given the document history page\nThen all documents uploaded in the last 7 years are listed\n\nGiven a document in history\nWhen the customer clicks to view\nThen the document opens in a viewer (not download) for security\n\nGiven document history\nThen documents cannot be deleted by the customer\nAnd the list is searchable by type, date, and status",
+    "storyPoints": 5, "priority": 3, "tags": "documents;history;retention"
+  },
+  {
+    "id": "US-701", "parentId": "FEAT-16", "title": "Email notification service",
+    "description": "As a customer, I want to receive email notifications for account activity so that I stay informed.",
+    "acceptanceCriteria": "Given a notification event\nWhen email is the selected channel\nThen an email is sent using the appropriate template (branded, responsive)\n\nGiven email delivery\nThen delivery status is logged (sent, delivered, bounced)\n\nGiven email notifications\nThen they include a 'Manage notifications' link to preferences page\n\nGiven regulatory emails\nThen they include required legal footer and no unsubscribe for mandatory notifications",
+    "storyPoints": 5, "priority": 1, "tags": "notifications;email"
+  },
+  {
+    "id": "US-702", "parentId": "FEAT-16", "title": "In-app notification center",
+    "description": "As a customer, I want an in-app notification center so that I see important updates without checking email.",
+    "acceptanceCriteria": "Given the portal header\nThen a bell icon shows the count of unread notifications\n\nGiven the notification dropdown\nWhen clicked\nThen it shows the 10 most recent notifications with: icon, title, time ago\n\nGiven a notification\nWhen clicked\nThen it marks as read and navigates to the relevant page\n\nGiven the 'View All' link\nWhen clicked\nThen a full notification history page opens with search and filters",
+    "storyPoints": 8, "priority": 2, "tags": "notifications;in-app"
+  },
+  {
+    "id": "US-703", "parentId": "FEAT-16", "title": "Mandatory notification triggers",
+    "description": "As a security officer, I want certain notifications to always be sent regardless of customer preferences.",
+    "acceptanceCriteria": "Given mandatory events:\n- Login from new device/location\n- Password change\n- 3+ failed login attempts\n- Transfer > $1,000\n- Account status change (frozen, closed)\n\nWhen any mandatory event occurs\nThen notifications are sent via ALL active channels (email + in-app minimum)\nAnd the customer cannot disable these notifications",
+    "storyPoints": 5, "priority": 1, "tags": "notifications;mandatory;security"
+  },
+  {
+    "id": "US-704", "parentId": "FEAT-17", "title": "Notification preferences UI",
+    "description": "As a customer, I want to choose which notifications I receive and how so that I'm not overwhelmed with alerts.",
+    "acceptanceCriteria": "Given the notification preferences page\nThen a matrix is shown: rows = notification categories, columns = channels (email, in-app)\n\nGiven mandatory notifications\nThen their toggles are locked ON with a lock icon and tooltip: 'Required for account security'\n\nGiven optional notifications\nWhen the customer toggles a channel off\nThen future notifications of that type are not sent via that channel\n\nGiven threshold-based notifications (transaction alerts, low balance)\nThen the customer can set custom threshold amounts",
+    "storyPoints": 8, "priority": 2, "tags": "notifications;preferences;ui"
+  },
+  {
+    "id": "US-705", "parentId": "FEAT-17", "title": "Notification preference enforcement",
+    "description": "As a customer, I want my notification preferences to be respected so that I only receive the alerts I've opted into.",
+    "acceptanceCriteria": "Given a notification event\nWhen the notification service processes it\nThen it checks the customer's preferences before sending\n\nGiven a channel is disabled for a category\nThen no notification is sent via that channel\n\nGiven a mandatory notification\nThen preference checks are bypassed and the notification is always sent",
+    "storyPoints": 5, "priority": 2, "tags": "notifications;preferences;enforcement"
+  },
+  {
+    "id": "US-706", "parentId": "FEAT-17", "title": "Notification history",
+    "description": "As a customer, I want to see a history of all notifications sent to me so that I can review past alerts.",
+    "acceptanceCriteria": "Given the notification history page\nThen all notifications (read and unread) are listed chronologically\n\nGiven each notification\nThen it shows: type icon, title, message preview, timestamp, channel(s), read/unread status\n\nGiven the list\nThen it is filterable by: type, date range, read/unread status",
+    "storyPoints": 3, "priority": 3, "tags": "notifications;history"
+  },
+  {
+    "id": "US-801", "parentId": "FEAT-13", "title": "View profile page",
+    "description": "As a customer, I want to view my profile information so that I can verify my details are correct.",
+    "acceptanceCriteria": "Given the profile page\nThen it shows:\n- Editable: email, phone, mailing address, display name\n- Non-editable: legal name, SSN (masked), DOB, account type\n\nGiven non-editable fields\nThen they show a lock icon and 'Contact support to update' message",
+    "storyPoints": 3, "priority": 2, "tags": "profile;view"
+  },
+  {
+    "id": "US-802", "parentId": "FEAT-13", "title": "Edit contact info with re-verification",
+    "description": "As a customer, I want to update my email and phone with verification so that my contact details are accurate and secure.",
+    "acceptanceCriteria": "Given email change\nWhen the customer enters a new email\nThen a verification link is sent to the NEW email\nAnd the change takes effect only after clicking the link\n\nGiven phone number change\nWhen the customer enters a new phone number\nThen an OTP is sent to the NEW number\nAnd the change takes effect only after entering the correct OTP\n\nGiven address change\nWhen submitted\nThen it updates immediately (no verification needed)\nAnd a confirmation notification is sent",
+    "storyPoints": 5, "priority": 2, "tags": "profile;edit;verification"
+  },
+  {
+    "id": "US-803", "parentId": "FEAT-13", "title": "Edit preferences and settings",
+    "description": "As a customer, I want to update my display preferences so that the portal suits my needs.",
+    "acceptanceCriteria": "Given the preferences section\nWhen the customer updates settings (language, timezone, date format)\nThen changes save immediately and reflect across the portal\n\nGiven notification preferences\nThen a link navigates to the dedicated notification preferences page",
+    "storyPoints": 3, "priority": 3, "tags": "profile;preferences"
+  },
+  {
+    "id": "US-804", "parentId": "FEAT-13", "title": "Change password",
+    "description": "As a customer, I want to change my password so that I can maintain account security.",
+    "acceptanceCriteria": "Given the change password form\nWhen the customer enters current password + new password\nThen new password is validated against complexity rules (8+ chars, upper, lower, number, special)\n\nGiven a valid new password\nWhen submitted\nThen MFA is required before the change takes effect\n\nGiven a successful password change\nThen all other sessions are invalidated\nAnd a confirmation notification is sent via all channels",
+    "storyPoints": 2, "priority": 2, "tags": "profile;password;security"
+  }
+]
