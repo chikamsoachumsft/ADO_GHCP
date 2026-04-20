@@ -32,8 +32,6 @@ pool:
 
 variables:
   - group: ItronSecrets
-  - name: workItemId
-    value: $[ resources.webhooks.ItronAIComment.resource.workItemId ]
 
 steps:
   - checkout: agents
@@ -51,7 +49,7 @@ steps:
 
   - script: |
       cd src
-      node dist/index.js --work-item-id $(workItemId) --event-type comment
+      node dist/index.js --work-item-id ${{ parameters.ItronAIComment.resource.workItemId }} --event-type comment
     displayName: "Process @ai comment"
     env:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)

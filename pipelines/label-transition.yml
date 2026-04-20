@@ -32,18 +32,12 @@ pool:
 
 variables:
   - group: ItronSecrets
-  - name: workItemId
-    value: $[ resources.webhooks.ItronLabelDone.resource.workItemId ]
 
 steps:
   - checkout: agents
 
   - script: |
-      echo "=== Debug webhook data ==="
-      echo "workItemId variable: '$(workItemId)'"
-      echo "resource.id: '$[ resources.webhooks.ItronLabelDone.resource.id ]'"
-      echo "resource.workItemId: '$[ resources.webhooks.ItronLabelDone.resource.workItemId ]'"
-      echo "resource.revision.fields.System.Id: '$[ resources.webhooks.ItronLabelDone.resource.revision.fields.System_Id ]'"
+      echo "Webhook workItemId: ${{ parameters.ItronLabelDone.resource.workItemId }}"
     displayName: "Debug webhook payload"
 
   - task: NodeTool@0
@@ -59,7 +53,7 @@ steps:
 
   - script: |
       cd src
-      node dist/index.js --work-item-id $(workItemId) --event-type label-done
+      node dist/index.js --work-item-id ${{ parameters.ItronLabelDone.resource.workItemId }} --event-type label-done
     displayName: "Run requirement decomposition"
     env:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
