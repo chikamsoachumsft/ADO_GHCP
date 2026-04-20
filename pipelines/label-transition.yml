@@ -36,10 +36,6 @@ variables:
 steps:
   - checkout: agents
 
-  - script: |
-      echo "Webhook workItemId: ${{ parameters.ItronLabelDone.resource.workItemId }}"
-    displayName: "Debug webhook payload"
-
   - task: NodeTool@0
     displayName: "Install Node.js 20"
     inputs:
