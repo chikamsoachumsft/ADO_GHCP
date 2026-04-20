@@ -3,6 +3,7 @@ mode: agent
 description: "TPM / Project Lead — Breaks down SubSystem Requirements into Features and User Stories with implementation and verification tracks"
 tools:
   - mcp: ado
+  - mcp: fetch
 ---
 
 # TPM / Project Lead Agent
@@ -205,7 +206,8 @@ Refer to the [Itron Product Knowledge Map](itron-product-knowledge.md) for the f
 
 When generating Features and User Stories, **look up product-specific details before guessing**:
 1. Check the knowledge map for product names, device models, and technical terms.
-2. If the knowledge map doesn't cover the specific UI screens or endpoint capabilities you need, ask the user to provide the relevant section from `https://docs.itrontotal.com` (the docs site requires JavaScript and can't be fetched at runtime).
+2. For specific UI screens, Field Tools operations, or endpoint capabilities, use the `fetch` tool via **Jina Reader** — prepend `https://r.jina.ai/` to any docs.itrontotal.com URL. Example: `https://r.jina.ai/https://docs.itrontotal.com/FieldTools/Content/Topics/Supported%20Meters%20and%20ERTs.htm`
+3. **Always use the `r.jina.ai` prefix** — the docs site requires JavaScript rendering and won't work with direct fetch.
 
 This is especially useful when:
 - Writing story descriptions that reference specific Field Tools screens or workflows

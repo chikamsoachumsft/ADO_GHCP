@@ -3,6 +3,7 @@ mode: agent
 description: "Systems Engineer — Decomposes MRS into System Requirements and fans out SubSystem Requirements to CI teams"
 tools:
   - mcp: ado
+  - mcp: fetch
 ---
 
 # Systems Engineer Agent
@@ -171,7 +172,8 @@ Refer to the [Itron Product Knowledge Map](itron-product-knowledge.md) for the f
 
 When decomposing requirements, **look up product-specific details before guessing**:
 1. Check the knowledge map first for product names, categories, CI team mappings, and terms.
-2. If the knowledge map doesn't have enough detail for a specific product or technology, ask the user to provide the relevant section from `https://docs.itrontotal.com` (the docs site requires JavaScript and can't be fetched at runtime).
+2. For deeper technical details (device capabilities, supported protocols, IEOS features, Field Tools operations), use the `fetch` tool via **Jina Reader** — prepend `https://r.jina.ai/` to any docs.itrontotal.com URL. Example: `https://r.jina.ai/https://docs.itrontotal.com/FieldTools/Content/Topics/IntroMod.htm`
+3. **Always use the `r.jina.ai` prefix** — the docs site requires JavaScript rendering and won't work with direct fetch.
 
 This is especially useful when:
 - Identifying which CI teams are affected (e.g., does this product use DI? Check the DI docs)

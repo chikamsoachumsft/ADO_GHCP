@@ -152,6 +152,11 @@
 
 1. **Orienting**: Use the product taxonomy above to understand what product family or tool the user is talking about.
 2. **Quick answers**: Use the glossary and carrier reference for terminology and specs.
-3. **Deep dives**: When you need specific technical details not covered here (e.g., exact AT commands, Field Tools UI screens, API specs, IEOS configuration), ask the user to provide the relevant section. The docs site (`docs.itrontotal.com`) uses JavaScript rendering and cannot be fetched at runtime.
-4. **Product catalog**: For product specs, the user can check `na.itron.com/products/[product-slug]`.
-5. **Reference files**: If the team adds markdown files to `.github/agents/itron-reference/`, check those for pre-extracted documentation on specific topics.
+3. **Deep dives**: When you need specific technical details (e.g., exact AT commands, Field Tools UI screens, API specs, IEOS configuration, supported meter commands), use the `fetch` tool via **Jina Reader**. **Always prepend `https://r.jina.ai/` to the docs URL** — the site uses JavaScript rendering and won't work with direct fetch.
+4. **Key pages to fetch** (via Jina Reader):
+   - Supported meters & ERTs: `https://r.jina.ai/https://docs.itrontotal.com/FieldTools/Content/Topics/Supported%20Meters%20and%20ERTs.htm`
+   - Field Tools introduction: `https://r.jina.ai/https://docs.itrontotal.com/FieldTools/Content/Topics/IntroMod.htm`
+   - Landing page (all doc areas): `https://r.jina.ai/https://docs.itrontotal.com/Content/LandingPageHome.html`
+   - Product catalog: `https://r.jina.ai/https://na.itron.com/solutions/product-catalog`
+   - Specific product: `https://r.jina.ai/https://na.itron.com/products/[product-slug]`
+5. **Pattern**: To fetch any page from `docs.itrontotal.com`, take the URL and prepend `https://r.jina.ai/`. This renders the JavaScript and returns the full content as markdown.
