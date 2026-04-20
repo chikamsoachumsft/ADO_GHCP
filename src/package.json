@@ -1,0 +1,19 @@
+{
+  "name": "itron-pipeline-automation",
+  "version": "1.0.0",
+  "description": "Label-driven pipeline automation for Itron requirement decomposition",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.6.0",
+    "openai": "^4.85.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}

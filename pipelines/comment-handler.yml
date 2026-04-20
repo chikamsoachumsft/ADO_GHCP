@@ -1,0 +1,53 @@
+# Pipeline: Comment-Driven AI Iteration
+#
+# Triggered when someone posts a comment starting with "@ai" on a work item.
+# AI reads the instruction, updates the work item description, and posts a diff.
+#
+# Setup:
+#   1. Create an Incoming Webhook service connection named "ItronAIComment"
+#   2. Create an ADO Service Hook:
+#      - Event: Work item commented
+#      - Action: Trigger incoming webhook "ItronAIComment"
+#   3. Add GITHUB_TOKEN as a pipeline variable (secret)
+#
+# Note: This pipeline has higher latency (~1-2 min) than a real-time webhook.
+# For interactive iteration, use the GitHub Copilot Chat agents instead.
+
+trigger: none
+pr: none
+
+resources:
+  webhooks:
+    - webhook: ItronAIComment
+      connection: ItronAIComment
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: workItemId
+    value: $[ resources.webhooks.ItronAIComment.resource.id ]
+
+steps:
+  - checkout: self
+
+  - task: NodeTool@0
+    displayName: "Install Node.js 20"
+    inputs:
+      versionSpec: "20.x"
+
+  - script: |
+      cd src
+      npm ci
+      npm run build
+    displayName: "Install dependencies and build"
+
+  - script: |
+      cd src
+      node dist/index.js --work-item-id $(workItemId) --event-type comment
+    displayName: "Process @ai comment"
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+      GITHUB_TOKEN: $(GITHUB_TOKEN)
+      ADO_ORG: canayorachu
+      ADO_PROJECT: ItronGlobalReqs
