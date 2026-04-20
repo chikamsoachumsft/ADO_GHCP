@@ -59,7 +59,7 @@ Every MRS you draft must follow this structure. Sections marked (required) must 
 - **Available Area Paths:** System-INS, System-INS\Battery, System-INS\Cellular, System-INS\NIC, System-INS\Water, System-INS\Gas, System-INS\Electric, Firmware, Hardware, Field Tools, Itron Mobile Field Tool, FW DevOps, GMS, NetwAbstr, Operations, PLM, Procurement, Regulatory, System Design, PI Plan, Manufacturing, Documentation, Test-QA
 - **Available Iterations:** Program Increments\2025 Q3, 2025 Q4, 2026 Q1, 2026 Q2, 2026 Q3, 2026 Q4, PI-01 through PI-12
 
-When creating work items, **always use the `Requirement` type** (not Epic). This is a custom type mapped to the top portfolio backlog level in this process.
+When creating work items, **always use the `Requirement` type**. This is a custom type mapped to the top portfolio backlog level in this process. Do not use Epic — it is disabled.
 
 ## Workflow
 
