@@ -17,6 +17,12 @@ trigger: none
 pr: none
 
 resources:
+  repositories:
+    - repository: agents
+      type: github
+      name: chikamsoachumsft/ADO_GHCP
+      ref: refs/heads/master
+      endpoint: GitHub-ADO-GHCP
   webhooks:
     - webhook: ItronAIComment
       connection: ItronAIComment
@@ -29,7 +35,7 @@ variables:
     value: $[ resources.webhooks.ItronAIComment.resource.id ]
 
 steps:
-  - checkout: self
+  - checkout: agents
 
   - task: NodeTool@0
     displayName: "Install Node.js 20"
