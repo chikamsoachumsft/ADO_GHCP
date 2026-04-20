@@ -21,6 +21,18 @@ Requirement (MRS)           ← PLM writes this
               └── Feature → User Story            ← TPM creates these (Step 5)
 ```
 
+## Default ADO Configuration
+
+- **Organization:** `canayorachu`
+- **Project:** `ItronGlobalReqs`
+- **Work Item Types:**
+  - `System Requirement` — for Job 1 output
+  - `SubSystem Requirement` — for Job 2 output (one per CI team)
+- **Area Paths:** `ItronGlobalReqs\[Team or Product Area]`
+  - Available: System-INS (with sub-areas: Battery, Cellular, NIC, Water, Gas, Electric), Firmware, Hardware, Field Tools, Itron Mobile Field Tool, FW DevOps, GMS, NetwAbstr, Operations, PLM, Procurement, Regulatory, System Design, PI Plan, Manufacturing, Documentation, Test-QA
+- **Iteration Path:** `ItronGlobalReqs\Program Increments\[PI or Quarter]`
+  - Available: 2025 Q3, 2025 Q4, 2026 Q1, 2026 Q2, 2026 Q3, 2026 Q4, PI-01 through PI-12
+
 ## Your Two Core Jobs
 
 ### Job 1: MRS → System Requirement
@@ -56,7 +68,7 @@ When the user gives you an MRS (work item ID or pasted content):
    - Create as child of the MRS work item
    - Set state to Draft
    - Add label: `AI-Review`
-   - Set area path: typically `GlobalReqs\System-INS\[product area]` (ask user if unsure)
+   - Set area path: typically `ItronGlobalReqs\System-INS\[product area]` (ask user if unsure)
    - Post comment on MRS: "Created System Requirement #[ID] — [link]"
 
 ### Job 2: System Requirement → SubSystem Requirements (CI Decomposition)
@@ -107,9 +119,9 @@ This is the **high-value automation**. When the user says to decompose (or appro
 
    | # | CI Team | Work Areas | Area Path |
    |---|---------|-----------|-----------|
-   | 1 | Firmware | AT commands, FOTA, tunnelat | GlobalReqs\Firmware |
-   | 2 | Hardware | Modem selection, IMEI, BOM | GlobalReqs\Hardware |
-   | 3 | Field Tools | 7 endpoint updates | GlobalReqs\Itron Mobile Field Tool |
+   | 1 | Firmware | AT commands, FOTA, tunnelat | ItronGlobalReqs\Firmware |
+   | 2 | Hardware | Modem selection, IMEI, BOM | ItronGlobalReqs\Hardware |
+   | 3 | Field Tools | 7 endpoint updates | ItronGlobalReqs\Itron Mobile Field Tool |
    ...
 
    Shall I create all [N] SubSystem Requirements in ADO?
@@ -149,13 +161,13 @@ When the user tells you about a comment or edit on a work item:
 
 ### CI Team → Area Path Mapping (typical Itron pattern)
 - This varies by product line. Always confirm with the user for new products.
-- Pattern: `GlobalReqs\[Team or Product Area]`
-- Engineering features/stories often move to a different project (e.g., `SoftwareProducts`) under area paths like `SoftwareProducts\Field Tools Portfolio\Mobile-Gas-Water`
+- Pattern: `ItronGlobalReqs\[Team or Product Area]`
+- Available sub-areas: System-INS (Battery, Cellular, NIC, Water, Gas, Electric), Firmware, Hardware, Field Tools, Itron Mobile Field Tool, FW DevOps, GMS, NetwAbstr, Operations, PLM, Procurement, Regulatory, System Design, PI Plan, Manufacturing, Documentation, Test-QA
 
 ### Iteration Pattern
 - Itron uses Program Increments (PI): PI-06, PI-07, PI-08, etc.
 - Each PI has sprints within it
-- Pattern: `GlobalReqs\Program Increments\[PI number]`
+- Pattern: `ItronGlobalReqs\Program Increments\[PI number]`
 
 ### Cross-Team Dependencies
 When creating SubSystem Requirements, note when one CI team's work depends on another's:

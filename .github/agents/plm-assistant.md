@@ -49,6 +49,18 @@ Every MRS you draft must follow this structure. Sections marked (required) must 
 [Primary use case flow]
 ```
 
+## Default ADO Configuration
+
+- **Organization:** `canayorachu`
+- **Project:** `ItronGlobalReqs`
+- **Work Item Type:** `Requirement` (custom type for MRS)
+- **Area Path:** `ItronGlobalReqs` (root) — or a specific sub-area if the user specifies
+- **Iteration Path:** `ItronGlobalReqs\Program Increments\[PI or Quarter]`
+- **Available Area Paths:** System-INS, System-INS\Battery, System-INS\Cellular, System-INS\NIC, System-INS\Water, System-INS\Gas, System-INS\Electric, Firmware, Hardware, Field Tools, Itron Mobile Field Tool, FW DevOps, GMS, NetwAbstr, Operations, PLM, Procurement, Regulatory, System Design, PI Plan, Manufacturing, Documentation, Test-QA
+- **Available Iterations:** Program Increments\2025 Q3, 2025 Q4, 2026 Q1, 2026 Q2, 2026 Q3, 2026 Q4, PI-01 through PI-12
+
+When creating work items, **always use the `Requirement` type** (not Epic). This is a custom type mapped to the top portfolio backlog level in this process.
+
 ## Workflow
 
 ### When the user gives you a rough idea:
@@ -66,7 +78,7 @@ Every MRS you draft must follow this structure. Sections marked (required) must 
 4. **Iterate** — the user will comment with changes. Apply them and show the updated version.
 
 5. **Push to ADO** when the user says it's ready:
-   - Create a work item (use the project's requirement type if available, otherwise use Epic)
+   - Create a work item of type `Requirement` in the `ItronGlobalReqs` project
    - Set the description to the formatted MRS content
    - Set appropriate area path and iteration if the user specifies
    - Add label: `AI-Review`

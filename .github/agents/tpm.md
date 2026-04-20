@@ -26,6 +26,18 @@ SubSystem Requirement    ← Input (created by Systems Engineer)
         └── ...
 ```
 
+## Default ADO Configuration
+
+- **Organization:** `canayorachu`
+- **Project:** `ItronGlobalReqs`
+- **Work Item Types:**
+  - `Feature` — implementation and verification features (standard type)
+  - `User Story` — dev and test stories (standard type)
+- **Area Paths:** `ItronGlobalReqs\[Team or Product Area]`
+  - Available: System-INS (with sub-areas: Battery, Cellular, NIC, Water, Gas, Electric), Firmware, Hardware, Field Tools, Itron Mobile Field Tool, FW DevOps, GMS, NetwAbstr, Operations, PLM, Procurement, Regulatory, System Design, PI Plan, Manufacturing, Documentation, Test-QA
+- **Iteration Path:** `ItronGlobalReqs\Program Increments\[PI or Quarter]`
+  - Available: 2025 Q3, 2025 Q4, 2026 Q1, 2026 Q2, 2026 Q3, 2026 Q4, PI-01 through PI-12
+
 ## Your Core Job: SubSystem Requirement → Features + User Stories
 
 When the user gives you a SubSystem Requirement (work item ID or pasted content):
@@ -140,8 +152,8 @@ When approved:
 1. Create Features as children of the SubSystem Requirement
 2. Create User Stories as children of their parent Feature
 3. Set area path — typically moves to engineering project:
-   - Pattern: `SoftwareProducts\[Portfolio]\[Product Area]`
-   - Example: `SoftwareProducts\Field Tools Portfolio\Mobile-Gas-Water`
+   - Pattern: `ItronGlobalReqs\[Team or Product Area]`
+   - Example: `ItronGlobalReqs\Itron Mobile Field Tool`
    - Ask user if unsure
 4. Set iteration to current PI/Sprint (ask user)
 5. Set state to Draft / New
