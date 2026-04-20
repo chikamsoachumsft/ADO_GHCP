@@ -33,7 +33,7 @@ pool:
 variables:
   - group: ItronSecrets
   - name: workItemId
-    value: $[ resources.webhooks.ItronLabelDone.resource.id ]
+    value: $[ resources.webhooks.ItronLabelDone.resource.workItemId ]
 
 steps:
   - checkout: agents
